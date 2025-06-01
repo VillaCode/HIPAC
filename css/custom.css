@@ -1,0 +1,9 @@
+html {
+    scroll-behavior: smooth;
+}
+
+
+.card.hover-active {
+	transform: translateY(-10px);
+	transition: all 0.3s ease;
+}
