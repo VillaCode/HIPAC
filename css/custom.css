@@ -8,3 +8,73 @@ html {
 	transition: all 0.3s ease;
 }
 
+/* Eliminar efecto oscuro del hover en el carrusel de proveedores */
+.thumb-info.rounded .thumb-info-wrapper::before {
+	display: none !important;
+}
+
+.thumb-info.rounded .thumb-info-wrapper::after {
+	display: none !important;
+}
+
+.thumb-info.rounded:hover .thumb-info-wrapper::before {
+	display: none !important;
+}
+
+.thumb-info.rounded:hover .thumb-info-wrapper::after {
+	display: none !important;
+}
+
+/* Asegurar que no haya overlay oscuro */
+.thumb-info.rounded .thumb-info-wrapper {
+	background: transparent !important;
+}
+
+.thumb-info.rounded:hover .thumb-info-wrapper {
+	background: transparent !important;
+}
+
+/* Corregir posición de flechas de navegación en carrusel de proveedores */
+.carousel-half-full-width-right .owl-carousel.nav-style-1 .owl-nav {
+	position: static;
+	text-align: center;
+	margin-top: 20px;
+	width: 100%;
+	z-index: 10;
+}
+
+.carousel-half-full-width-right .owl-carousel.nav-style-1 .owl-nav button.owl-prev {
+	position: static;
+	display: inline-block;
+	margin: 0 10px;
+	background: transparent !important;
+	color: #000 !important;
+	font-size: 19px;
+	width: 40px;
+	height: 40px;
+	border: 2px solid #ddd;
+	border-radius: 50%;
+	transition: all 0.3s ease;
+}
+
+.carousel-half-full-width-right .owl-carousel.nav-style-1 .owl-nav button.owl-next {
+	position: static;
+	display: inline-block;
+	margin: 0 10px;
+	background: transparent !important;
+	color: #000 !important;
+	font-size: 19px;
+	width: 40px;
+	height: 40px;
+	border: 2px solid #ddd;
+	border-radius: 50%;
+	transition: all 0.3s ease;
+}
+
+.carousel-half-full-width-right .owl-carousel.nav-style-1 .owl-nav button.owl-prev:hover,
+.carousel-half-full-width-right .owl-carousel.nav-style-1 .owl-nav button.owl-next:hover {
+	color: var(--primary) !important;
+	background: transparent !important;
+	border-color: var(--primary) !important;
+}
+

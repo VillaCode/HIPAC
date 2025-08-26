@@ -31,6 +31,9 @@
 		<link rel="stylesheet" href="vendor/owl.carousel/assets/owl.theme.default.min.css">
 		<link rel="stylesheet" href="vendor/magnific-popup/magnific-popup.min.css">
 
+		<!-- Leaflet CSS for OpenStreetMap -->
+		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+
 		<!-- Theme CSS -->
 		<link rel="stylesheet" href="css/theme.css">
 		<link rel="stylesheet" href="css/theme-elements.css">
@@ -195,7 +198,7 @@
 								<div class="d-block pb-4">
 									<p class="text-uppercase text-2 font-weight-bold mb-0 text-color-light opacity-7">Escríbenos</p>
 									<p class="p-relative bottom-4 text-color-light">
-										<a class="text-2 font-weight-bold mb-0 text-color-light" href="mailto:contacto@hipac.com">contacto@hipac.com</a>
+										<a class="text-2 font-weight-bold mb-0 text-color-light" href="mailto:contacto@hipac-pci.com.mx">contacto@hipac-pci.com.mx</a>
 									</p>
 								</div>
 
@@ -207,7 +210,7 @@
 								</div>
 
 								<div class="d-block pb-4">
-									<div id="googlemaps" class="google-map small mt-0 mb-0" style="height: 260px;"></div>
+									<div id="map" class="google-map small mt-0 mb-0" style="height: 260px; border-radius: 6px;"></div>
 								</div>
 							</div>
 							<div class="col-lg-6 mt-5 mt-lg-0">
@@ -218,7 +221,7 @@
 										<h3 class="mb-3 text-5">Ingresa los detalles de tu proyecto:</h3>
 										<p class="mb-4">Completa el formulario y nos pondremos en contacto contigo para brindarte una solución personalizada.</p>
 
-									  	<form class="contact-form" action="php/contact-form.php" method="POST">
+									  	<form action="https://submify.vercel.app/contacto@hipac-pci.com.mx" method="POST">
 											<div class="contact-form-success alert alert-success d-none mt-4">
 												<strong>¡Éxito!</strong> Tu mensaje ha sido enviado.
 											</div>
@@ -349,63 +352,50 @@
 		<!-- Theme Initialization Files -->
 		<script src="js/theme.init.js"></script>
 
-	<!-- Google Maps -->
+	<!-- OpenStreetMap with Leaflet (Free Alternative to Google Maps) -->
+		<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 		<script>
-
-			/* 
-			Map Markers:
-			- Get an API Key: https://developers.google.com/maps/documentation/javascript/get-api-key
-			- Generate Map Id: https://console.cloud.google.com/google/maps-apis/studio/maps
-			- Use https://www.latlong.net/convert-address-to-lat-long.html to get Latitude and Longitude of a specific address
-			*/
-			(g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})
-				({key: "YOUR_API_KEY", v: "weekly"});
-
-			async function initMap() {
-				const { Map, InfoWindow } = await google.maps.importLibrary("maps");
-				const { AdvancedMarkerElement, PinElement } = await google.maps.importLibrary(
-					"marker",
-				);
-				const map = new Map(document.getElementById("googlemaps"), {
-					zoom: 14,
-					center: { lat: -37.817240, lng: 144.955820 },
-					mapId: "YOUR_MAP_API_ID",
+			// Initialize the map when the page loads
+			document.addEventListener('DOMContentLoaded', function() {
+				// Culiacán, Sinaloa coordinates
+				const culiacanLat = 24.7994;
+				const culiacanLng = -107.3896;
+				
+				// Create the map
+				const map = L.map('map').setView([culiacanLat, culiacanLng], 13);
+				
+				// Add OpenStreetMap tiles
+				L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+					attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+					maxZoom: 19
+				}).addTo(map);
+				
+				// Create a custom icon for the marker
+				const customIcon = L.divIcon({
+					html: '<div style="background-color: #e36159; width: 20px; height: 20px; border-radius: 50%; border: 3px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.3);"></div>',
+					className: 'custom-marker',
+					iconSize: [20, 20],
+					iconAnchor: [10, 10]
 				});
-				const markers = [
-					{
-						position: { lat: -37.817240, lng: 144.955820 },
-						title: "Office 1<br>Melbourne, 121 King St, Australia<br>Phone: 123-456-1234",
-					}
-				];
-
-				const infoWindow = new InfoWindow();
-
-				markers.forEach(({ position, title }, i) => {
-					const pin = new PinElement({
-						background: "#e36159",
-						borderColor: "#e36159",
-						glyphColor: "#FFF",
-					});
-					const marker = new AdvancedMarkerElement({
-						position,
-						map,
-						title: `${title}`,
-						content: pin.element,
-					});
-
-					marker.addListener("click", ({ domEvent, latLng }) => {
-						const { target } = domEvent;
-
-						infoWindow.close();
-						infoWindow.setContent(marker.title);
-						infoWindow.open(marker.map, marker);
-					});
-				});	
-
-			}
-
-			initMap();	
-
+				
+				// Add marker for HIPAC office
+				const marker = L.marker([culiacanLat, culiacanLng], {icon: customIcon}).addTo(map);
+				
+				// Add popup with company information
+				marker.bindPopup(`
+					<div style="text-align: center; min-width: 200px;">
+						<strong style="color: #e36159; font-size: 16px;">HIPAC</strong><br>
+						<strong>Hidro Ingeniería Del Pacifico SA de CV</strong><br>
+						Blvd. Alfonso Zaragoza Maytorena 1780<br>
+						Col. Tres Ríos<br>
+						Culiacán, Sinaloa<br>
+						<strong>Tel: (667) 992-1247</strong>
+					</div>
+				`);
+				
+				// Open popup by default
+				marker.openPopup();
+			});
 		</script>
 
 	</body>
