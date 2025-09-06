@@ -3452,7 +3452,7 @@ html.sticky-header-enabled.sticky-header-active #header .header-logo-sticky-chan
 		position: absolute;
 		background: transparent;
 		width: 100%;
-		top: 100%;
+		top: 2 0%;
 		left: 50%;
 		transform: translate3d(-50%, 0, 0);
 	}
@@ -3666,7 +3666,7 @@ html.sticky-header-enabled.sticky-header-active #header .header-logo-sticky-chan
 	}
 
 	#header .header-nav-bar .header-nav {
-		min-height: 60px !important;
+		min-height: 1px !important;
 		padding: 0;
 	}
 

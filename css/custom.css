@@ -78,3 +78,30 @@ html {
 	border-color: var(--primary) !important;
 }
 
+/* Eliminar espacio en blanco superior del menú móvil */
+@media (max-width: 991px) {
+	#header .header-nav-main {
+		top: 100% !important;
+	}
+	
+	#header .header-nav-main nav {
+		padding: 0 15px !important;
+		margin: 0 !important;
+	}
+	
+	#header .header-nav-main nav > ul {
+		padding: 0 0 15px 0 !important;
+		margin: 0 !important;
+	}
+	
+	#header .header-nav-main nav > ul > li:first-child {
+		margin-top: 0 !important;
+		padding-top: 0 !important;
+	}
+	
+	#header .header-nav-main nav > ul > li:first-child > a {
+		margin-top: 0 !important;
+		padding-top: 7px !important;
+	}
+}
+
